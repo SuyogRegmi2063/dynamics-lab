@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Notes &amp; Past Questions — DynamicsLab</title>
+<meta name="description" content="Chapter-wise structural dynamics lecture PDFs and past year questions.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  /* Notes section styles (kept here so style.css needs no changes) */
+  .notes-toolbar{margin:20px 0 16px}
+  .notes-search{width:100%;max-width:420px;padding:11px 14px;font:inherit;color:inherit;background:transparent;border:1px solid rgba(128,128,128,.4);border-radius:10px}
+  .notes-search:focus{outline:2px solid currentColor;outline-offset:1px}
+  .up-card{display:flex;flex-direction:column;gap:12px}
+  .up-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+  .up-count{font-size:.85rem}
+  .dropzone{display:block;text-align:center;padding:18px 12px;border:2px dashed rgba(128,128,128,.5);border-radius:12px;cursor:pointer;font-size:.95rem}
+  .dropzone:hover,.dropzone.over,.dropzone:focus-within{border-color:currentColor;background:rgba(128,128,128,.08)}
+  .dropzone input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+  .dropzone strong{display:block;margin-bottom:2px}
+  .file-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+  .file-item{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:10px 12px;border:1px solid rgba(128,128,128,.3);border-radius:10px}
+  .file-name{flex:1 1 160px;min-width:0;overflow-wrap:anywhere;font-weight:600}
+  .file-size{font-size:.8rem}
+  .file-btns{display:flex;gap:6px}
+  .file-btns .btn{padding:5px 12px;font-size:.85rem}
+  .file-btns button{font:inherit;font-size:.85rem;color:inherit;background:transparent;border:1px solid rgba(128,128,128,.4);border-radius:8px;padding:5px 10px;cursor:pointer}
+  .file-btns button:hover{border-color:currentColor}
+  .file-btns .del{color:#c0392b}
+  #upMsg{margin:0 0 16px;min-height:1.2em}
+</style>
+<script defer src="common.js"></script>
+<script defer src="notes-data.js"></script>
+<script defer src="notes.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="container nav">
+    <a class="brand" href="index.html" aria-label="DynamicsLab home">
+      <img src="logo-mark-light.png" alt="">
+      DynamicsLab
+    </a>
+    <nav class="links" aria-label="Main">
+      <a href="lessons.html">Lessons</a>
+      <a href="simulations.html">Simulations</a>
+      <a href="tools.html">Toolbox</a>
+      <a href="quiz.html">Quiz</a>
+      <a href="formulas.html">Formulas</a>
+      <a href="notes.html" aria-current="page">Notes</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="section-tight">
+    <div class="container">
+      <p class="eyebrow">Study material</p>
+      <h2>Notes &amp; past questions</h2>
+      <p class="lead">Chapter-wise lecture notes and past year questions. Open a PDF in a new tab or download it.</p>
+
+      <div class="notes-toolbar">
+        <input id="notesSearch" class="notes-search" type="search" placeholder="Search notes…" aria-label="Search notes">
+      </div>
+      <p id="upMsg" class="muted" aria-live="polite"></p>
+      <div id="uploadGrid" class="grid grid-3"></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <p>© <span id="year"></span> DynamicsLab. Built for learning.</p>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simulations — DynamicsLab</title>
+<meta name="description" content="Interactive structural dynamics simulations: free and forced SDOF vibration, resonance curves and MDOF mode shapes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script defer src="common.js"></script>
+<script defer src="simulations.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="container nav">
+    <a class="brand" href="index.html" aria-label="DynamicsLab home">
+      <img src="logo-mark-light.png" alt="">
+      DynamicsLab
+    </a>
+    <nav class="links" aria-label="Main">
+      <a href="lessons.html">Lessons</a>
+      <a href="simulations.html" aria-current="page">Simulations</a>
+      <a href="tools.html">Toolbox</a>
+      <a href="quiz.html">Quiz</a>
+      <a href="formulas.html">Formulas</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container section-tight">
+  <h1 style="font-size:clamp(2rem,4vw,2.8rem)">Simulations</h1>
+  <p class="lead">Change a parameter and watch the structure respond. Each simulation is linked to a lesson.</p>
+
+  <div class="subnav">
+    <a class="btn btn-ghost btn-sm" href="#sim1">1 · SDOF frame</a>
+    <a class="btn btn-ghost btn-sm" href="#sim2">2 · Resonance curves</a>
+    <a class="btn btn-ghost btn-sm" href="#sim3">3 · Mode shapes</a>
+  </div>
+
+  <!-- SIM 1 -->
+  <section id="sim1" class="section-tight">
+    <h2>1 · Single-storey frame</h2>
+    <p class="muted">Free vibration from an initial push, or steady harmonic loading. Related: <a href="lessons.html#l3">lesson 3</a> and <a href="lessons.html#l4">lesson 4</a>.</p>
+    <div class="sim">
+      <div class="card">
+        <div class="seg" role="group" aria-label="Loading type">
+          <button type="button" id="modeFree" aria-pressed="true">Free vibration</button>
+          <button type="button" id="modeForced" aria-pressed="false">Harmonic force</button>
+        </div>
+        <div class="field"><div class="field-row"><label for="m">Mass <span class="unit">t</span></label><output id="m-out"></output></div><input type="range" id="m" min="5" max="200" step="5" value="20"></div>
+        <div class="field"><div class="field-row"><label for="k">Stiffness <span class="unit">kN/m</span></label><output id="k-out"></output></div><input type="range" id="k" min="200" max="10000" step="100" value="2000"></div>
+        <div class="field"><div class="field-row"><label for="xi">Damping ratio ξ <span class="unit">%</span></label><output id="xi-out"></output></div><input type="range" id="xi" min="0" max="30" step="0.5" value="5"></div>
+        <div id="freeFields">
+          <div class="field"><div class="field-row"><label for="u0">Initial displacement <span class="unit">mm</span></label><output id="u0-out"></output></div><input type="range" id="u0" min="-100" max="100" step="5" value="50"></div>
+        </div>
+        <div id="forcedFields" hidden>
+          <div class="field"><div class="field-row"><label for="p0">Force amplitude <span class="unit">kN</span></label><output id="p0-out"></output></div><input type="range" id="p0" min="5" max="200" step="5" value="50"></div>
+          <div class="field"><div class="field-row"><label for="r">Frequency ratio r = ω̄/ωₙ</label><output id="r-out"></output></div><input type="range" id="r" min="0.1" max="3" step="0.05" value="1"></div>
+        </div>
+        <div class="field"><label for="speed">Playback speed</label>
+          <select id="speed"><option value="1">1×</option><option value="0.5">0.5×</option><option value="0.25">0.25×</option></select></div>
+        <div class="btn-row">
+          <button class="btn btn-primary btn-sm" type="button" id="playBtn">Pause</button>
+          <button class="btn btn-ghost btn-sm" type="button" id="restartBtn">Restart</button>
+        </div>
+      </div>
+      <div>
+        <div class="plot"><canvas id="frameCanvas" data-h="200" role="img" aria-label="Animated single-storey frame"></canvas></div>
+        <div class="readouts" id="readouts1">
+          <div class="readout"><small>Natural freq. ωₙ</small><b id="roWn">—</b></div>
+          <div class="readout"><small>Frequency fₙ</small><b id="roFn">—</b></div>
+          <div class="readout"><small>Period Tₙ</small><b id="roT">—</b></div>
+          <div class="readout"><small>Damped freq. ω_D</small><b id="roWd">—</b></div>
+          <div class="readout" id="roDafBox" hidden><small>Steady-state DAF</small><b id="roDaf">—</b></div>
+          <div class="readout" id="roAmpBox" hidden><small>Steady-state amplitude</small><b id="roAmp">—</b></div>
+        </div>
+        <div class="plot"><div class="plot-title">Displacement history</div><canvas id="histCanvas" data-h="260" role="img" aria-label="Displacement time history"></canvas></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SIM 2 -->
+  <section id="sim2" class="section">
+    <h2>2 · Resonance curves</h2>
+    <p class="muted">How the dynamic amplification factor and phase lag depend on the frequency ratio and damping. Related: <a href="lessons.html#l4">lesson 4</a>.</p>
+    <div class="sim">
+      <div class="card">
+        <div class="field"><div class="field-row"><label for="xi2">Damping ratio ξ <span class="unit">%</span></label><output id="xi2-out"></output></div><input type="range" id="xi2" min="1" max="100" step="1" value="5"></div>
+        <div class="field"><div class="field-row"><label for="r2">Frequency ratio r</label><output id="r2-out"></output></div><input type="range" id="r2" min="0" max="3" step="0.01" value="0.8"></div>
+        <div class="readouts" style="grid-template-columns:1fr 1fr">
+          <div class="readout"><small>DAF at this r</small><b id="ro2D">—</b></div>
+          <div class="readout"><small>Phase lag θ</small><b id="ro2th">—</b></div>
+          <div class="readout"><small>Peak DAF</small><b id="ro2pk">—</b></div>
+          <div class="readout"><small>Peak at r =</small><b id="ro2rp">—</b></div>
+        </div>
+      </div>
+      <div>
+        <div class="plot"><div class="plot-title">Dynamic amplification factor D vs r</div><canvas id="dafCanvas" data-h="300" role="img" aria-label="Dynamic amplification factor curves"></canvas></div>
+        <div class="plot"><div class="plot-title">Phase angle θ (degrees) vs r</div><canvas id="phaseCanvas" data-h="220" role="img" aria-label="Phase angle curves"></canvas></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SIM 3 -->
+  <section id="sim3" class="section">
+    <h2>3 · Mode shapes of a shear building</h2>
+    <p class="muted">A uniform N-storey building (equal masses and storey stiffnesses, fixed base). Time is slowed so higher modes stay watchable. Related: <a href="lessons.html#l7">lesson 7</a>. For your own building, use the <a href="tools.html#tool3">modal analysis tool</a>.</p>
+    <div class="sim">
+      <div class="card">
+        <div class="field"><label for="nSt">Number of storeys</label>
+          <select id="nSt"><option>2</option><option selected>3</option><option>4</option><option>5</option><option>6</option><option>8</option></select></div>
+        <div class="field"><label for="modeSel">Mode</label><select id="modeSel"></select></div>
+        <div class="field"><div class="field-row"><label for="amp3">Display amplitude</label><output id="amp3-out"></output></div><input type="range" id="amp3" min="20" max="100" step="5" value="70"></div>
+        <div class="btn-row"><button class="btn btn-primary btn-sm" type="button" id="play3">Pause</button></div>
+        <div class="readouts" style="grid-template-columns:1fr 1fr">
+          <div class="readout"><small>ωₙ / √(k/m)</small><b id="ro3w">—</b></div>
+          <div class="readout"><small>ωₙ / ω₁</small><b id="ro3r">—</b></div>
+          <div class="readout"><small>Participation Γ</small><b id="ro3g">—</b></div>
+          <div class="readout"><small>Effective mass</small><b id="ro3m">—</b></div>
+        </div>
+        <p class="muted" style="font-size:.85rem;margin:0">For a uniform shear building ωₙ = 2√(k/m)·sin[(2n−1)π / (2(2N+1))]. The numbers above come from the eigenvalue solver.</p>
+      </div>
+      <div>
+        <div class="plot"><canvas id="modeCanvas" data-h="360" role="img" aria-label="Animated mode shape of a shear building"></canvas></div>
+        <div class="plot"><div class="plot-title">Mode shape (normalised)</div><canvas id="shapeCanvas" data-h="260" role="img" aria-label="Mode shape plot"></canvas></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <p>© <span id="year"></span> DynamicsLab. Built for learning. Results from the calculators are for education, so verify them before using them in design work.</p>
+  </div>
+</footer>
+</body>
+</html>

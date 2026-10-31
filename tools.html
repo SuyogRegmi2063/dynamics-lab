@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Toolbox — DynamicsLab</title>
+<meta name="description" content="Structural dynamics calculators: SDOF properties, harmonic response, multi-storey modal analysis and a Newmark time-history solver.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script defer src="common.js"></script>
+<script defer src="tools.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="container nav">
+    <a class="brand" href="index.html" aria-label="DynamicsLab home">
+      <img src="logo-mark-light.png" alt="">
+      DynamicsLab
+    </a>
+    <nav class="links" aria-label="Main">
+      <a href="lessons.html">Lessons</a>
+      <a href="simulations.html">Simulations</a>
+      <a href="tools.html" aria-current="page">Toolbox</a>
+      <a href="quiz.html">Quiz</a>
+      <a href="formulas.html">Formulas</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container section-tight">
+  <h1 style="font-size:clamp(2rem,4vw,2.8rem)">Toolbox</h1>
+  <p class="lead">Calculators for checking your hand calculations. Everything updates as you type. Units are chosen so that mass in tonnes and stiffness in kN/m give frequencies in rad/s.</p>
+
+  <div class="subnav">
+    <a class="btn btn-ghost btn-sm" href="#tool1">SDOF properties</a>
+    <a class="btn btn-ghost btn-sm" href="#tool2">Harmonic response</a>
+    <a class="btn btn-ghost btn-sm" href="#tool3">Modal analysis</a>
+    <a class="btn btn-ghost btn-sm" href="#tool4">Newmark solver</a>
+  </div>
+
+  <!-- TOOL 1 -->
+  <section id="tool1" class="card" style="margin-bottom:24px">
+    <h2>SDOF properties</h2>
+    <p class="muted">Natural frequency, period, damping and decay for a single-degree-of-freedom system. Lessons <a href="lessons.html#l2">2</a> and <a href="lessons.html#l3">3</a>.</p>
+    <div class="form-grid">
+      <div class="field"><label for="t1m">Mass (t)</label><input type="number" id="t1m" value="20" min="0" step="any"></div>
+      <div class="field"><label for="t1src">Stiffness input</label>
+        <select id="t1src"><option value="direct">Enter k directly</option><option value="cols">From columns</option></select></div>
+      <div class="field" id="t1kBox"><label for="t1k">Stiffness k (kN/m)</label><input type="number" id="t1k" value="2000" min="0" step="any"></div>
+      <div class="field"><label for="t1xi">Damping ratio ξ (%)</label><input type="number" id="t1xi" value="5" min="0" max="99" step="any"></div>
+    </div>
+    <div class="form-grid" id="t1cols" hidden>
+      <div class="field"><label for="t1n">Number of columns</label><input type="number" id="t1n" value="4" min="1" step="1"></div>
+      <div class="field"><label for="t1E">E (GPa)</label><input type="number" id="t1E" value="210" min="0" step="any"></div>
+      <div class="field"><label for="t1I">I per column (cm⁴)</label><input type="number" id="t1I" value="25170" min="0" step="any"></div>
+      <div class="field"><label for="t1h">Height h (m)</label><input type="number" id="t1h" value="4" min="0" step="any"></div>
+      <div class="field"><label for="t1end">Support condition</label>
+        <select id="t1end"><option value="12">Fixed–fixed, rigid deck (12EI/h³)</option><option value="3">Cantilever (3EI/h³)</option></select></div>
+    </div>
+    <div class="readouts" id="t1out"></div>
+  </section>
+
+  <!-- TOOL 2 -->
+  <section id="tool2" class="card" style="margin-bottom:24px">
+    <h2>Harmonic response</h2>
+    <p class="muted">Steady-state response of an SDOF system to p₀ sin(ω̄t), with transmissibility for vibration isolation. Lessons <a href="lessons.html#l4">4</a> and <a href="lessons.html#l6">6</a>.</p>
+    <div class="form-grid">
+      <div class="field"><label for="t2m">Mass (t)</label><input type="number" id="t2m" value="20" min="0" step="any"></div>
+      <div class="field"><label for="t2k">Stiffness k (kN/m)</label><input type="number" id="t2k" value="2000" min="0" step="any"></div>
+      <div class="field"><label for="t2xi">Damping ratio ξ (%)</label><input type="number" id="t2xi" value="5" min="0" max="99" step="any"></div>
+      <div class="field"><label for="t2p0">Force amplitude p₀ (kN)</label><input type="number" id="t2p0" value="50" min="0" step="any"></div>
+      <div class="field"><label for="t2f">Forcing frequency (Hz)</label><input type="number" id="t2f" value="1.59" min="0" step="any"></div>
+    </div>
+    <div class="readouts" id="t2out"></div>
+    <div class="plot"><div class="plot-title">Steady-state amplitude vs forcing frequency</div><canvas id="t2chart" data-h="280" role="img" aria-label="Amplitude versus forcing frequency"></canvas></div>
+  </section>
+
+  <!-- TOOL 3 -->
+  <section id="tool3" class="card" style="margin-bottom:24px">
+    <h2>Shear building modal analysis</h2>
+    <p class="muted">Natural frequencies, mode shapes, participation factors and effective modal masses. Rigid floors, storey 1 at the bottom. Lessons <a href="lessons.html#l7">7</a> and <a href="lessons.html#l8">8</a>.</p>
+    <div class="btn-row" style="margin-bottom:12px">
+      <button class="btn btn-ghost btn-sm" type="button" id="t3add">+ Add storey</button>
+      <button class="btn btn-ghost btn-sm" type="button" id="t3rem">− Remove top storey</button>
+    </div>
+    <div class="table-wrap"><table id="t3in"></table></div>
+    <div class="readouts" id="t3sum"></div>
+    <div class="table-wrap"><table id="t3out"></table></div>
+    <div class="plot" style="margin-top:16px"><div class="plot-title">Mode shapes (roof = 1)</div><canvas id="t3chart" data-h="320" role="img" aria-label="Mode shapes"></canvas></div>
+  </section>
+
+  <!-- TOOL 4 -->
+  <section id="tool4" class="card">
+    <h2>Newmark time-history solver</h2>
+    <p class="muted">Response of an SDOF system to a pulse or step load by Newmark's method. Lesson <a href="lessons.html#l5">5</a>.</p>
+    <div class="form-grid">
+      <div class="field"><label for="t4m">Mass (t)</label><input type="number" id="t4m" value="20" min="0" step="any"></div>
+      <div class="field"><label for="t4k">Stiffness k (kN/m)</label><input type="number" id="t4k" value="2000" min="0" step="any"></div>
+      <div class="field"><label for="t4xi">Damping ratio ξ (%)</label><input type="number" id="t4xi" value="0" min="0" max="99" step="any"></div>
+      <div class="field"><label for="t4load">Load shape</label>
+        <select id="t4load">
+          <option value="step">Step (constant)</option>
+          <option value="rect">Rectangular pulse</option>
+          <option value="sine">Half-sine pulse</option>
+          <option value="tri">Triangular (linear decay)</option>
+        </select></div>
+      <div class="field"><label for="t4p0">Peak load p₀ (kN)</label><input type="number" id="t4p0" value="50" min="0" step="any"></div>
+      <div class="field"><label for="t4td">Pulse duration t_d (s)</label><input type="number" id="t4td" value="0.3" min="0.001" step="any"></div>
+      <div class="field"><label for="t4T">Total time (s)</label><input type="number" id="t4T" value="3" min="0.1" step="any"></div>
+      <div class="field"><label for="t4dt">Time step Δt (s)</label><input type="number" id="t4dt" value="0.01" min="0.0001" step="any"></div>
+      <div class="field"><label for="t4method">Method</label>
+        <select id="t4method"><option value="avg">Average acceleration (β=¼, γ=½)</option><option value="lin">Linear acceleration (β=⅙, γ=½)</option></select></div>
+    </div>
+    <div class="readouts" id="t4out"></div>
+    <div class="plot"><div class="plot-title">Displacement history</div><canvas id="t4u" data-h="260" role="img" aria-label="Displacement history"></canvas></div>
+    <div class="plot"><div class="plot-title">Applied load</div><canvas id="t4p" data-h="180" role="img" aria-label="Applied load history"></canvas></div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <p>© <span id="year"></span> DynamicsLab. Built for learning. Results from the calculators are for education, so verify them before using them in design work.</p>
+  </div>
+</footer>
+</body>
+</html>

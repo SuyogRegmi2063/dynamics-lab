@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quiz — DynamicsLab</title>
+<meta name="description" content="Practice questions on structural dynamics at beginner, intermediate and advanced level, with explanations.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script defer src="common.js"></script>
+<script defer src="quiz.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="container nav">
+    <a class="brand" href="index.html" aria-label="DynamicsLab home">
+      <img src="logo-mark-light.png" alt="">
+      DynamicsLab
+    </a>
+    <nav class="links" aria-label="Main">
+      <a href="lessons.html">Lessons</a>
+      <a href="simulations.html">Simulations</a>
+      <a href="tools.html">Toolbox</a>
+      <a href="quiz.html" aria-current="page">Quiz</a>
+      <a href="formulas.html">Formulas</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container section-tight" style="max-width:820px">
+  <h1 style="font-size:clamp(2rem,4vw,2.8rem)">Practice quiz</h1>
+  <p class="lead">Pick an answer to see whether you are right and why. Scores count only the first attempt at each question.</p>
+
+  <div class="seg" role="group" aria-label="Filter by level" id="quizFilter">
+    <button type="button" data-filter="all" aria-pressed="true">All</button>
+    <button type="button" data-filter="beginner" aria-pressed="false">Beginner</button>
+    <button type="button" data-filter="intermediate" aria-pressed="false">Intermediate</button>
+    <button type="button" data-filter="advanced" aria-pressed="false">Advanced</button>
+  </div>
+
+  <div class="card" style="margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+    <div><span class="muted">Score</span><div class="score" id="score" aria-live="polite">0 / 0</div></div>
+    <button class="btn btn-ghost btn-sm" type="button" id="resetQuiz">Reset quiz</button>
+  </div>
+
+  <div id="quizList"></div>
+</main>
+
+<footer>
+  <div class="container">
+    <p>© <span id="year"></span> DynamicsLab. Built for learning. Results from the calculators are for education, so verify them before using them in design work.</p>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lessons — DynamicsLab</title>
+<meta name="description" content="Nine structural dynamics lessons from SDOF vibration to modal analysis and beam vibration, with worked examples.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script defer src="common.js"></script>
+<script defer src="lessons.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="container nav">
+    <a class="brand" href="index.html" aria-label="DynamicsLab home">
+      <img src="logo-mark-light.png" alt="">
+      DynamicsLab
+    </a>
+    <nav class="links" aria-label="Main">
+      <a href="lessons.html" aria-current="page">Lessons</a>
+      <a href="simulations.html">Simulations</a>
+      <a href="tools.html">Toolbox</a>
+      <a href="quiz.html">Quiz</a>
+      <a href="formulas.html">Formulas</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container section-tight">
+  <h1 style="font-size:clamp(2rem,4vw,2.8rem)">Lessons</h1>
+  <p class="lead">Nine short lessons, ordered by level. Open one, read the idea, then check yourself with the worked example.</p>
+
+  <div class="seg" role="group" aria-label="Filter by level" id="levelFilter">
+    <button type="button" data-filter="all" aria-pressed="true">All</button>
+    <button type="button" data-filter="beginner" aria-pressed="false">Beginner</button>
+    <button type="button" data-filter="intermediate" aria-pressed="false">Intermediate</button>
+    <button type="button" data-filter="advanced" aria-pressed="false">Advanced</button>
+  </div>
+
+  <!-- 1 -->
+  <details class="lesson" data-level="beginner" id="l1">
+    <summary><span class="num">01</span><span class="title">What makes a problem dynamic?</span><span class="badge beginner">Beginner</span><span class="mins">8 min</span></summary>
+    <div class="lesson-body">
+      <p>A load is <strong>static</strong> if it changes so slowly that inertia can be ignored. It is <strong>dynamic</strong> when it varies quickly enough that the structure's own mass accelerates, so inertia forces become part of the equilibrium. A useful rule of thumb: if the load changes over a time comparable to, or shorter than, the structure's natural period, treat it dynamically. Wind gusts, machinery, traffic, blast and earthquakes are classic dynamic loads.</p>
+      <h3>Degrees of freedom</h3>
+      <p>The <strong>number of degrees of freedom (DOF)</strong> is the number of independent displacement coordinates needed to describe the position of all the mass at any instant. Real structures have infinitely many; we idealise them by lumping mass at a few points. A shear building with rigid floors and one lateral displacement per floor has as many DOF as it has storeys.</p>
+      <h3>The four ingredients</h3>
+      <p>Mass \(m\) resists acceleration, stiffness \(k\) resists deformation, damping \(c\) dissipates energy, and excitation \(p(t)\) drives the motion. Writing equilibrium with D'Alembert's principle (inertia, damping and elastic forces balance the applied load) gives the equation of motion of a single-degree-of-freedom (SDOF) system:</p>
+      <div class="eq">$$m\ddot{u}+c\dot{u}+ku=p(t)$$</div>
+      <div class="example"><strong>Example: counting DOF</strong>A 4-storey frame whose floors are rigid in their own plane and whose columns are axially rigid moves only sideways at each floor, so it has 4 DOF. A single-storey water tank on a slender column, with all the mass at the top, has 1 DOF.</div>
+      <div class="tryit"><a class="btn btn-ghost btn-sm" href="simulations.html#sim1">Try Simulation 1</a></div>
+    </div>
+  </details>
+
+  <!-- 2 -->
+  <details class="lesson" data-level="beginner" id="l2">
+    <summary><span class="num">02</span><span class="title">Undamped free vibration</span><span class="badge beginner">Beginner</span><span class="mins">10 min</span></summary>
+    <div class="lesson-body">
+      <p>Disturb an SDOF system and release it with no external load and no damping. The equation is \(m\ddot u+ku=0\), whose solution is a pure sinusoid at the <strong>natural circular frequency</strong> \(\omega_n\).</p>
+      <div class="eq">$$u(t)=u_0\cos\omega_n t+\frac{\dot u_0}{\omega_n}\sin\omega_n t,\qquad \omega_n=\sqrt{\frac{k}{m}}$$</div>
+      <div class="eq">$$f_n=\frac{\omega_n}{2\pi},\qquad T_n=\frac{1}{f_n}=\frac{2\pi}{\omega_n}$$</div>
+      <p>The natural frequency depends only on mass and stiffness, so it is a property of the structure and not of how hard you pushed it. A stiffer or lighter structure vibrates faster.</p>
+      <div class="example"><strong>Example</strong>A tank of mass \(m=20{,}000\) kg sits on columns with total lateral stiffness \(k=2.0\times10^{6}\) N/m. Then \(\omega_n=\sqrt{2\times10^6/20{,}000}=10\) rad/s, \(f_n=10/2\pi=1.59\) Hz and \(T_n=0.628\) s. Doubling the stiffness raises \(\omega_n\) by only \(\sqrt2\), to 14.1 rad/s.</div>
+      <div class="note"><strong>Remember</strong>Use consistent units. With mass in tonnes and stiffness in kN/m, \(\sqrt{k/m}\) comes out directly in rad/s.</div>
+      <div class="tryit"><a class="btn btn-ghost btn-sm" href="simulations.html#sim1">Simulation 1</a><a class="btn btn-ghost btn-sm" href="tools.html#tool1">SDOF calculator</a></div>
+    </div>
+  </details>
+
+  <!-- 3 -->
+  <details class="lesson" data-level="beginner" id="l3">
+    <summary><span class="num">03</span><span class="title">Damped free vibration</span><span class="badge beginner">Beginner</span><span class="mins">12 min</span></summary>
+    <div class="lesson-body">
+      <p>Real structures lose energy through material hysteresis, friction in connections and cracking. We model this with a viscous damper \(c\). The damping is described by the <strong>damping ratio</strong> relative to the critical value:</p>
+      <div class="eq">$$c_{cr}=2m\omega_n,\qquad \xi=\frac{c}{c_{cr}}$$</div>
+      <p>If \(\xi\lt1\) (underdamped, the case for essentially all buildings and bridges) the motion oscillates inside a decaying exponential envelope:</p>
+      <div class="eq">$$u(t)=e^{-\xi\omega_n t}\left[u_0\cos\omega_D t+\frac{\dot u_0+\xi\omega_n u_0}{\omega_D}\sin\omega_D t\right],\qquad \omega_D=\omega_n\sqrt{1-\xi^2}$$</div>
+      <p>At \(\xi=1\) the system returns without oscillating and for \(\xi\gt1\) it creeps back slowly. Damping ratios are typically a few percent, and 5% is the classic default for response spectra. Because damping is so small, \(\omega_D\approx\omega_n\).</p>
+      <h3>Measuring damping: the logarithmic decrement</h3>
+      <p>The ratio of two successive peaks gives \(\xi\) experimentally:</p>
+      <div class="eq">$$\delta=\ln\frac{u_i}{u_{i+1}}=\frac{2\pi\xi}{\sqrt{1-\xi^2}}\approx2\pi\xi$$</div>
+      <div class="example"><strong>Example</strong>For the tank in lesson 2 with \(\xi=5\%\): \(c_{cr}=2(20{,}000)(10)=400{,}000\) N·s/m, so \(c=20{,}000\) N·s/m. Then \(\omega_D=10\sqrt{1-0.0025}=9.99\) rad/s and \(\delta=0.315\). Each peak is \(e^{0.315}=1.37\) times smaller than the previous one, and it takes about \(\ln2/\delta\approx2.2\) cycles to halve the amplitude.</div>
+      <div class="tryit"><a class="btn btn-ghost btn-sm" href="simulations.html#sim1">Simulation 1</a><a class="btn btn-ghost btn-sm" href="tools.html#tool1">SDOF calculator</a></div>
+    </div>
+  </details>
+
+  <!-- 4 -->
+  <details class="lesson" data-level="intermediate" id="l4">
+    <summary><span class="num">04</span><span class="title">Harmonic loading and resonance</span><span class="badge intermediate">Intermediate</span><span class="mins">14 min</span></summary>
+    <div class="lesson-body">
+      <p>Apply \(p(t)=p_0\sin\bar\omega t\). After the transient dies out, the system vibrates at the forcing frequency with a constant amplitude. Define the frequency ratio \(r=\bar\omega/\omega_n\).</p>
+      <div class="eq">$$u_p(t)=\frac{p_0}{k}\,D\,\sin(\bar\omega t-\theta),\quad D=\frac{1}{\sqrt{(1-r^2)^2+(2\xi r)^2}},\quad \theta=\tan^{-1}\frac{2\xi r}{1-r^2}$$</div>
+      <p>\(D\) is the <strong>dynamic amplification factor</strong>, the ratio of the dynamic to the static deflection \(p_0/k\). It tells you everything:</p>
+      <ul>
+        <li>\(r\ll1\): slow loading, \(D\approx1\), the response is quasi-static and in phase with the load.</li>
+        <li>\(r\approx1\): <strong>resonance</strong>, the response is limited only by damping.</li>
+        <li>\(r\gg1\): fast loading, \(D\approx1/r^2\), the mass hardly moves and the response is inertia-controlled and out of phase.</li>
+      </ul>
+      <div class="eq">$$D_{r=1}=\frac{1}{2\xi}$$</div>
+      <div class="example"><strong>Example</strong>The tank from lesson 2 (\(\omega_n=10\) rad/s, \(\xi=5\%\)) is hit by a rotating machine producing \(p_0=50\) kN at 10 rad/s. Static deflection \(p_0/k=50{,}000/2\times10^6=25\) mm. At resonance \(D=1/(0.1)=10\), so the steady-state amplitude is \(250\) mm, ten times the static value. Detune the machine to \(r=2\): \(D=1/\sqrt{9+0.04}=0.33\), and the amplitude drops to 8.3 mm.</div>
+      <div class="note"><strong>Design takeaway</strong>Keep the forcing frequency well away from \(\omega_n\), or add damping if you cannot.</div>
+      <div class="tryit"><a class="btn btn-ghost btn-sm" href="simulations.html#sim2">Simulation 2</a><a class="btn btn-ghost btn-sm" href="tools.html#tool2">Harmonic calculator</a></div>
+    </div>
+  </details>
+
+  <!-- 5 -->
+  <details class="lesson" data-level="intermediate" id="l5">
+    <summary><span class="num">05</span><span class="title">Arbitrary loading: Duhamel and Newmark</span><span class="badge intermediate">Intermediate</span><span class="mins">15 min</span></summary>
+    <div class="lesson-body">
+      <p>Wind gusts, blasts and impacts are not harmonic. For a linear system, treat the load as a train of tiny impulses and add up the responses (superposition). This gives <strong>Duhamel's integral</strong>, starting from rest:</p>
+      <div class="eq">$$u(t)=\frac{1}{m\omega_D}\int_0^t p(\tau)\,e^{-\xi\omega_n(t-\tau)}\sin\omega_D(t-\tau)\,d\tau$$</div>
+      <div class="example"><strong>Example: suddenly applied constant load</strong>For an undamped system with \(p(t)=p_0\) for \(t\ge0\), the integral gives \(u(t)=\frac{p_0}{k}(1-\cos\omega_n t)\). The peak is exactly <strong>twice</strong> the static deflection, a result worth memorising. Damping reduces it slightly below 2.</div>
+      <h3>Numerical integration</h3>
+      <p>For general loads, nonlinear behaviour or MDOF systems, we step through time. <strong>Newmark's method</strong> assumes how acceleration varies within a step and uses two parameters \(\beta\) and \(\gamma\):</p>
+      <div class="eq">$$\dot u_{i+1}=\dot u_i+\Delta t\left[(1-\gamma)\ddot u_i+\gamma\ddot u_{i+1}\right],\quad u_{i+1}=u_i+\Delta t\,\dot u_i+\Delta t^2\left[(\tfrac12-\beta)\ddot u_i+\beta\ddot u_{i+1}\right]$$</div>
+      <ul>
+        <li>\(\gamma=\tfrac12,\ \beta=\tfrac14\) (average acceleration): unconditionally stable for linear systems and the standard choice.</li>
+        <li>\(\gamma=\tfrac12,\ \beta=\tfrac16\) (linear acceleration): more accurate but only conditionally stable, needing \(\Delta t/T_n\le0.551\).</li>
+      </ul>
+      <p>Stability is not accuracy. Use \(\Delta t\le T_n/10\) (smaller if the load has sharp features) to resolve the response properly.</p>
+      <div class="tryit"><a class="btn btn-ghost btn-sm" href="tools.html#tool4">Newmark solver</a></div>
+    </div>
+  </details>
+
+  <!-- 6 -->
+  <details class="lesson" data-level="intermediate" id="l6">
+    <summary><span class="num">06</span><span class="title">Base excitation and response spectra</span><span class="badge intermediate">Intermediate</span><span class="mins">14 min</span></summary>
+    <div class="lesson-body">
+      <p>When the ground shakes with acceleration \(\ddot u_g(t)\), the relative displacement \(u\) of the structure obeys the equation of an SDOF system loaded by an effective force \(-m\ddot u_g\):</p>
+      <div class="eq">$$m\ddot u+c\dot u+ku=-m\,\ddot u_g(t)$$</div>
+      <p>Solving this for one ground motion and many oscillators (a range of \(T_n\), fixed \(\xi\)) and recording the peak of each gives the <strong>response spectrum</strong>. The spectral displacement is \(S_d\), and the <strong>pseudo-acceleration</strong> and equivalent static base shear follow:</p>
+      <div class="eq">$$S_a=\omega_n^2\,S_d,\qquad V_b=m\,S_a$$</div>
+      <p>This turns an earthquake analysis into a simple look-up: find \(T_n\), read \(S_a\) from the design spectrum, and apply a static force.</p>
+      <div class="example"><strong>Example</strong>For the tank (\(m=20{,}000\) kg, \(T_n=0.628\) s, \(\omega_n=10\) rad/s) suppose the 5% spectrum gives \(S_d=50\) mm at this period. Then \(S_a=100\times0.05=5\) m/s² (about 0.51 g) and \(V_b=20{,}000\times5=100\) kN. Check: \(k\,S_d=2\times10^6\times0.05=100\) kN ✓.</div>
+      <h3>Vibration isolation</h3>
+      <p>For a machine on a spring-damper mount, the force transmitted to the floor is \(TR\cdot p_0\) with</p>
+      <div class="eq">$$TR=D\sqrt{1+(2\xi r)^2}$$</div>
+      <p>Isolation (\(TR\lt1\)) only occurs when \(r\gt\sqrt2\). Below that, a spring mount makes things worse.</p>
+      <div class="tryit"><a class="btn btn-ghost btn-sm" href="tools.html#tool2">Harmonic calculator (shows transmissibility)</a></div>
+    </div>
+  </details>
+
+  <!-- 7 -->
+  <details class="lesson" data-level="advanced" id="l7">
+    <summary><span class="num">07</span><span class="title">MDOF systems and modal analysis</span><span class="badge advanced">Advanced</span><span class="mins">18 min</span></summary>
+    <div class="lesson-body">
+      <p>For \(N\) degrees of freedom the equation of motion becomes a matrix equation:</p>
+      <div class="eq">$$\mathbf{M}\ddot{\mathbf{u}}+\mathbf{C}\dot{\mathbf{u}}+\mathbf{K}\mathbf{u}=\mathbf{p}(t)$$</div>
+      <p>Free vibration without damping assumes motion of the form \(\mathbf u=\boldsymbol\phi\sin\omega t\), leading to the <strong>generalised eigenvalue problem</strong>:</p>
+      <div class="eq">$$(\mathbf K-\omega^2\mathbf M)\boldsymbol\phi=\mathbf 0\quad\Rightarrow\quad\det(\mathbf K-\omega^2\mathbf M)=0$$</div>
+      <p>There are \(N\) natural frequencies \(\omega_1\lt\omega_2\lt\dots\) and \(N\) mode shapes \(\boldsymbol\phi_n\). The key property is <strong>orthogonality</strong>: \(\boldsymbol\phi_i^T\mathbf M\boldsymbol\phi_j=0\) and \(\boldsymbol\phi_i^T\mathbf K\boldsymbol\phi_j=0\) for \(i\ne j\). This is what allows the coupled equations to be decoupled in the next lesson.</p>
+      <div class="example"><strong>Example: 2-storey shear building</strong>Equal masses \(m\) and equal storey stiffnesses \(k\). Then \(\mathbf M=m\begin{bmatrix}1&0\\0&1\end{bmatrix}\) and \(\mathbf K=k\begin{bmatrix}2&-1\\-1&1\end{bmatrix}\). With \(\lambda=\omega^2m/k\), the characteristic equation is \(\lambda^2-3\lambda+1=0\), so \(\lambda=(3\mp\sqrt5)/2=0.382,\ 2.618\).
+      <br>\(\omega_1=0.618\sqrt{k/m}\) with \(\boldsymbol\phi_1=[0.618,\ 1]^T\) (both floors move together) and \(\omega_2=1.618\sqrt{k/m}\) with \(\boldsymbol\phi_2=[-1.618,\ 1]^T\) (floors move in opposite directions).</div>
+      <p>Mode shapes are only defined up to a scale factor. A common convention is to normalise the roof displacement to 1.</p>
+      <div class="tryit"><a class="btn btn-ghost btn-sm" href="simulations.html#sim3">Simulation 3 (mode shapes)</a><a class="btn btn-ghost btn-sm" href="tools.html#tool3">Modal analysis tool</a></div>
+    </div>
+  </details>
+
+  <!-- 8 -->
+  <details class="lesson" data-level="advanced" id="l8">
+    <summary><span class="num">08</span><span class="title">Modal superposition and damping models</span><span class="badge advanced">Advanced</span><span class="mins">18 min</span></summary>
+    <div class="lesson-body">
+      <p>Write the response as a sum of modes, \(\mathbf u(t)=\sum_n\boldsymbol\phi_n q_n(t)\). Orthogonality turns the \(N\) coupled equations into \(N\) independent SDOF equations. For ground shaking:</p>
+      <div class="eq">$$\ddot q_n+2\xi_n\omega_n\dot q_n+\omega_n^2q_n=-\Gamma_n\ddot u_g,\qquad \Gamma_n=\frac{\boldsymbol\phi_n^T\mathbf M\boldsymbol\iota}{\boldsymbol\phi_n^T\mathbf M\boldsymbol\phi_n}$$</div>
+      <p>where \(\boldsymbol\iota\) is the influence vector (all ones for a shear building under horizontal ground motion). \(\Gamma_n\) is the <strong>modal participation factor</strong>. The <strong>effective modal mass</strong> \(M_n^{*}=(\boldsymbol\phi_n^T\mathbf M\boldsymbol\iota)^2/(\boldsymbol\phi_n^T\mathbf M\boldsymbol\phi_n)\) tells you how much of the total mass each mode mobilises. The ratios over all modes add up to 100%, and design codes typically require enough modes to capture at least 90%.</p>
+      <p>Modal peaks do not occur at the same instant, so peak responses are combined with SRSS (\(\sqrt{\sum r_n^2}\)) or, when frequencies are close, the CQC rule.</p>
+      <h3>Damping: Rayleigh model</h3>
+      <p>Damping matrices are rarely derived from first principles. A practical choice is <strong>Rayleigh damping</strong> \(\mathbf C=a_0\mathbf M+a_1\mathbf K\), which is diagonalised by the same modes with</p>
+      <div class="eq">$$\xi_n=\frac{a_0}{2\omega_n}+\frac{a_1\omega_n}{2},\qquad a_0=\frac{2\xi\,\omega_i\omega_j}{\omega_i+\omega_j},\quad a_1=\frac{2\xi}{\omega_i+\omega_j}$$</div>
+      <p>The last two formulas force \(\xi_i=\xi_j=\xi\) at two chosen frequencies.</p>
+      <div class="example"><strong>Example</strong>Target 5% damping at \(\omega_i=10\) and \(\omega_j=30\) rad/s. Then \(a_0=2(0.05)(300)/40=0.75\) s⁻¹ and \(a_1=0.1/40=0.0025\) s. At \(\omega=20\) rad/s: \(\xi=0.75/40+0.0025\times10=4.4\%\), a little below target between the two anchor points, and rising rapidly outside them.</div>
+      <div class="tryit"><a class="btn btn-ghost btn-sm" href="tools.html#tool3">Modal analysis tool (participation and effective mass)</a></div>
+    </div>
+  </details>
+
+  <!-- 9 -->
+  <details class="lesson" data-level="advanced" id="l9">
+    <summary><span class="num">09</span><span class="title">Continuous systems: beam vibration</span><span class="badge advanced">Advanced</span><span class="mins">16 min</span></summary>
+    <div class="lesson-body">
+      <p>A beam has mass spread along its length, so it has infinitely many DOF. For an Euler–Bernoulli beam with constant \(EI\) and mass per unit length \(\bar m\), free vibration obeys</p>
+      <div class="eq">$$EI\frac{\partial^4y}{\partial x^4}+\bar m\frac{\partial^2y}{\partial t^2}=0$$</div>
+      <p>Separating variables, \(y(x,t)=\psi(x)q(t)\), turns this into an eigenvalue problem whose solutions depend on the boundary conditions. For a <strong>simply supported</strong> beam of length \(L\) the modes are sine waves and</p>
+      <div class="eq">$$\omega_n=\left(\frac{n\pi}{L}\right)^2\sqrt{\frac{EI}{\bar m}},\qquad \psi_n(x)=\sin\frac{n\pi x}{L}$$</div>
+      <p>Frequencies grow with \(n^2\), so \(\omega_2=4\omega_1\) and \(\omega_3=9\omega_1\). For a <strong>cantilever</strong>, \(\omega_1=3.516\sqrt{EI/(\bar mL^4)}\) and \(\omega_2=22.03\sqrt{EI/(\bar mL^4)}\).</p>
+      <div class="example"><strong>Example</strong>A simply supported span with \(L=10\) m, \(EI=2\times10^8\) N·m² and \(\bar m=1000\) kg/m has \(\omega_1=(\pi/10)^2\sqrt{2\times10^8/1000}=0.0987\times447.2=44.1\) rad/s, i.e. \(f_1=7.03\) Hz. Walking pace is about 2 Hz, so the first harmonic of footfall is far from resonance, but the 3rd harmonic (about 6 Hz) is getting close.</div>
+      <h3>Rayleigh's method</h3>
+      <p>For a quick estimate when the exact mode is unknown, assume a sensible shape \(\psi(x)\) satisfying the boundary conditions:</p>
+      <div class="eq">$$\omega^2\approx\frac{\int_0^L EI\,(\psi'')^2\,dx}{\int_0^L\bar m\,\psi^2\,dx}$$</div>
+      <p>The estimate is always an upper bound for \(\omega_1^2\), and it is remarkably accurate if \(\psi\) is close to the true shape (such as the static deflected shape).</p>
+    </div>
+  </details>
+</main>
+
+<footer>
+  <div class="container">
+    <p>© <span id="year"></span> DynamicsLab. Built for learning. Results from the calculators are for education, so verify them before using them in design work.</p>
+  </div>
+</footer>
+</body>
+</html>
